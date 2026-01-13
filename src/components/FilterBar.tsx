@@ -1,49 +1,39 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Filter, X } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import { RARITIES, type RarityId } from '@/data/cards';
 
 interface FilterBarProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
   selectedRarities: RarityId[];
   onRarityToggle: (rarityId: RarityId) => void;
   onClearFilters: () => void;
 }
 
 export const FilterBar = ({
-  searchQuery,
-  onSearchChange,
   selectedRarities,
   onRarityToggle,
   onClearFilters,
 }: FilterBarProps) => {
   const [showFilters, setShowFilters] = useState(false);
-  const hasFilters = searchQuery || selectedRarities.length > 0;
+  const hasFilters = selectedRarities.length > 0;
 
   return (
     <div className="space-y-3">
-      {/* 検索バー */}
+      {/* フィルターボタン */}
       <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="カードIDで検索..."
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-10"
-          />
-        </div>
         <Button
           variant={showFilters ? "default" : "outline"}
-          size="icon"
           onClick={() => setShowFilters(!showFilters)}
-          className="shrink-0"
+          className="flex-1"
         >
-          <Filter className="h-4 w-4" />
+          <Filter className="h-4 w-4 mr-2" />
+          レアリティフィルター
+          {hasFilters && (
+            <Badge variant="secondary" className="ml-2 bg-primary-foreground/20">
+              {selectedRarities.length}
+            </Badge>
+          )}
         </Button>
         {hasFilters && (
           <Button

@@ -8,7 +8,6 @@ import './App.css';
 
 function App() {
   const { getCount, increment, decrement, setCount, stats } = useCardCollection();
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedRarities, setSelectedRarities] = useState<RarityId[]>([]);
 
   // フィルタリングされたレアリティリスト
@@ -32,16 +31,7 @@ function App() {
   };
 
   const handleClearFilters = () => {
-    setSearchQuery('');
     setSelectedRarities([]);
-  };
-
-  // 検索クエリに基づいてカードをフィルタ（大文字小文字区別なし）
-  const getFilteredCount = (cardId: string): number => {
-    if (searchQuery && !cardId.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return -1; // 非表示マーカー
-    }
-    return getCount(cardId);
   };
 
   return (
@@ -62,8 +52,6 @@ function App() {
 
         {/* フィルターバー */}
         <FilterBar
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
           selectedRarities={selectedRarities}
           onRarityToggle={handleRarityToggle}
           onClearFilters={handleClearFilters}
@@ -75,10 +63,7 @@ function App() {
             <RaritySection
               key={rarity.id}
               rarityId={rarity.id}
-              getCount={(cardId) => {
-                const count = getFilteredCount(cardId);
-                return count >= 0 ? count : getCount(cardId);
-              }}
+              getCount={getCount}
               increment={increment}
               decrement={decrement}
               setCount={setCount}
