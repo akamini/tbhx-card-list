@@ -37,10 +37,19 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-          To be hero X
-        </h1>
-        <p className="text-sm text-muted-foreground">カードコレクション管理</p>
+        <div className="inline-block relative">
+          <h1 className="text-3xl font-black italic tracking-tighter bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent pr-2">
+            TBHX TRACKER
+          </h1>
+          <div className="absolute -top-1 -right-2 rotate-12">
+            <span className="bg-primary text-primary-foreground text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full shadow-sm">
+              BETA
+            </span>
+          </div>
+        </div>
+        <p className="text-sm font-medium text-muted-foreground mt-1">
+          To Be Hero X Card Collection Manager
+        </p>
       </header>
 
       <main className="app-main">
