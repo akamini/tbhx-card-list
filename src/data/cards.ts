@@ -17,10 +17,13 @@ export const RARITIES = [
 
 export type RarityId = typeof RARITIES[number]['id'];
 
+import { HERO_MAPPING } from './heroMapping';
+
 export interface Card {
   id: string;
   rarity: RarityId;
   number: number;
+  hero: string;
 }
 
 export interface CardOwnership {
@@ -34,10 +37,12 @@ export const generateCards = (): Card[] => {
   for (const rarity of RARITIES) {
     for (let i = 1; i <= rarity.count; i++) {
       const paddedNumber = i.toString().padStart(2, '0');
+      const id = `TBHX01-${rarity.id}${paddedNumber}`;
       cards.push({
-        id: `TBHX01-${rarity.id}${paddedNumber}`,
+        id,
         rarity: rarity.id,
         number: i,
+        hero: HERO_MAPPING[id] || 'Unknown',
       });
     }
   }
@@ -58,4 +63,18 @@ export const getCardsByRarity = (rarityId: RarityId): Card[] => {
 // レアリティ情報を取得
 export const getRarityInfo = (rarityId: RarityId) => {
   return RARITIES.find(r => r.id === rarityId)!;
+};
+
+// ユニークなヒーロー一覧を取得
+export const getUniqueHeroes = (): string[] => {
+  const heroes = new Set(CARDS.map(card => card.hero));
+  // "Unknown" を除外し、"サインカード"や"X"もリストに含めるが、
+  // 一般的な表示順序として頻出順や五十音順などが考えられる。
+  // ここでは単純に文字列ソートするが、必要ならカスタムソートを実装する。
+  return Array.from(heroes).sort();
+};
+
+// ヒーロー名でカードを取得
+export const getCardsByHero = (heroName: string): Card[] => {
+  return CARDS.filter(card => card.hero === heroName);
 };

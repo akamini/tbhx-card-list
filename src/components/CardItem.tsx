@@ -32,9 +32,14 @@ export const CardItem = ({
         ? 'bg-primary/10 border-primary/30' 
         : 'bg-muted/30 border-muted'
     } border`}>
-      <span className={`font-mono text-sm ${count > 0 ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-        {card.id}
-      </span>
+      <div className="flex flex-col">
+        <span className={`font-mono text-sm ${count > 0 ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
+          {card.id}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          {card.hero}
+        </span>
+      </div>
       
       <div className="flex items-center gap-1.5">
         <Button
